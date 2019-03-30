@@ -1,28 +1,28 @@
-void animationStartup(){
+void animationStartup() {
   Serial.println("initiating startup");
   //fancy LED - Animation
   //startup sound
   int notendauer = 300;
   buzzer.begin(5);
-  buzzer.sound(NOTE_C6, 0.5*notendauer);
-  buzzer.sound(NOTE_E6, 0.5*notendauer);
+  buzzer.sound(NOTE_C6, 0.5 * notendauer);
+  buzzer.sound(NOTE_E6, 0.5 * notendauer);
   buzzer.sound(NOTE_G6, notendauer);
-  buzzer.sound(NOTE_E6, 0.5*notendauer);
-  buzzer.sound(NOTE_G6, 4*notendauer);
-  
+  buzzer.sound(NOTE_E6, 0.5 * notendauer);
+  buzzer.sound(NOTE_G6, 4 * notendauer);
+
   Serial.println("startup complete");
 }
 
-void animationGameOver(){
+void animationGameOver() {
   int notendauer = 200;
   buzzer.begin(20);
-  buzzer.sound(NOTE_DS5, 2*notendauer);
-  buzzer.sound(NOTE_D5, 2*notendauer);
-  buzzer.sound(NOTE_CS5, 2*notendauer);
-  buzzer.sound(NOTE_C5, 4*notendauer);
+  buzzer.sound(NOTE_DS5, 2 * notendauer);
+  buzzer.sound(NOTE_D5, 2 * notendauer);
+  buzzer.sound(NOTE_CS5, 2 * notendauer);
+  buzzer.sound(NOTE_C5, 4 * notendauer);
 }
 
-void animationWin(){
+void animationWin() {
   buzzer.begin(100);
   buzzer.sound(NOTE_E7, 80);
   buzzer.sound(NOTE_E7, 80);
@@ -94,31 +94,31 @@ void animationWin(){
   buzzer.end(2000);
 }
 
-void animationFC(){
+void animationFC() {
   int n = 500;
   buzzer.begin(10);
   buzzer.sound(NOTE_FS5,  n);
   delay(150);
-  buzzer.sound(NOTE_CS6,   0.25*n);
-  buzzer.sound(NOTE_B5,  0.25*n);
+  buzzer.sound(NOTE_CS6,   0.25 * n);
+  buzzer.sound(NOTE_B5,  0.25 * n);
   buzzer.sound(NOTE_CS6,   n);
   buzzer.sound(NOTE_FS5,  n);
-    delay(150);
-  buzzer.sound(NOTE_D6,   0.25*n);
-  buzzer.sound(NOTE_CS6,  0.25*n);
-  buzzer.sound(NOTE_D6,   0.5*n);
-  buzzer.sound(NOTE_CS6,  0.5*n);
+  delay(150);
+  buzzer.sound(NOTE_D6,   0.25 * n);
+  buzzer.sound(NOTE_CS6,  0.25 * n);
+  buzzer.sound(NOTE_D6,   0.5 * n);
+  buzzer.sound(NOTE_CS6,  0.5 * n);
   buzzer.sound(NOTE_B5,   n);
-      delay(150);
-  buzzer.sound(NOTE_D6,   0.25*n);
-  buzzer.sound(NOTE_CS6,  0.25*n);
-  buzzer.sound(NOTE_D6,   0.5*n);
-  buzzer.sound(NOTE_CS6,  0.5*n);
+  delay(150);
+  buzzer.sound(NOTE_D6,   0.25 * n);
+  buzzer.sound(NOTE_CS6,  0.25 * n);
+  buzzer.sound(NOTE_D6,   0.5 * n);
+  buzzer.sound(NOTE_CS6,  0.5 * n);
   buzzer.sound(NOTE_FS5,   n);
-      delay(150);
-  buzzer.sound(NOTE_B5,   0.25*n);
-  buzzer.sound(NOTE_A5,  0.25*n);
-  buzzer.sound(NOTE_B5,   0.5*n);
-  buzzer.sound(NOTE_A5,  0.5*n);
+  delay(150);
+  buzzer.sound(NOTE_B5,   0.25 * n);
+  buzzer.sound(NOTE_A5,  0.25 * n);
+  buzzer.sound(NOTE_B5,   0.5 * n);
+  buzzer.sound(NOTE_A5,  0.5 * n);
   buzzer.sound(NOTE_B5,   n);
 }

@@ -1,13 +1,13 @@
 
-/*  *********** Mobile Escape Game *************               
- *   
- *  Made by Maker Community Braunschweig (MCBS)
- *  
- *  
- *  Authors: Rudolph Leue
- *           Martin Dehmel
- *           ...
-   
+/*  *********** Mobile Escape Game *************
+
+    Made by Maker Community Braunschweig (MCBS)
+
+
+    Authors: Rudolph Leue
+             Martin Dehmel
+             ...
+
     Editing History:
     V0.1    12.03.2017 Keypad
     V0.2    01.04.2017 BarGame
@@ -37,14 +37,14 @@
 #include "Timer.h"
 
 
-/* The game is controlled via a game status variable. 
- * Meaning of the values: 
- * 0: General Control Mode
- * 1: Colour Cards
- * 2: Quiz Game
- * 3: Keypad Game
- * 4: Bar Game       
- */
+/* The game is controlled via a game status variable.
+   Meaning of the values:
+   0: General Control Mode
+   1: Colour Cards
+   2: Quiz Game
+   3: Keypad Game
+   4: Bar Game
+*/
 
 unsigned int GameStatus = 0;
 
@@ -53,16 +53,16 @@ unsigned int GameStatus = 0;
 
 
 void setup() {
-   
-   Serial.begin(9600);
+
+  Serial.begin(9600);
 
   // -------------------- Station 1: KeypadGame ------------------------------
   keypad1.addEventListener(KeypadGameEvent);
   KeypadGamePinSetup();
 
   lcd.begin(16, 2);                                  // Activate 16 x 2 LCD display
-  
-  
+
+
   // -------------------- Station 2: ColourCards ------------------------------
   ColourCardsPinSetup();
 
@@ -81,12 +81,12 @@ void setup() {
   tm1637.init();
   tm1637.set(BRIGHTEST);      // BRIGHT_TYPICAL = 2,BRIGHT_DARKEST = 0,BRIGHTEST = 7;
 
-  
+
   int countDir = DOWN;              // Set counting direction
 
   unsigned long initialTime = millis();   // Create time variable
 
-  showTime(minutes,seconds);
+  showTime(minutes, seconds);
 
 }
 
@@ -96,52 +96,52 @@ void loop() {
 
   // Update the timer
   unsigned long currentMillis = millis();
-  if(currentMillis - previousMillis > interval) {
-    previousMillis = currentMillis;    
+  if (currentMillis - previousMillis > interval) {
+    previousMillis = currentMillis;
     decreaseTime(1);
     showTime(minutes, seconds);
   }
 
-  
-  switch(GameStatus) {
+
+  switch (GameStatus) {
     // General Control Mode
     case 0:
-      printOnLCD(" Start the Game","   ===MCBS===");
+      printOnLCD(" Start the Game", "   ===MCBS===");
       delay(5000);
       GameStatus += 1;
-      printOnLCD("Aktuelle Station","Colour Cards");
-    break;
+      printOnLCD("Aktuelle Station", "Colour Cards");
+      break;
     case 1:
       colourCards();
       if (ColourCardsFinished) {
         GameStatus += 1;
-        printOnLCD("Aktuelle Station","Quiz Game");
+        printOnLCD("Aktuelle Station", "Quiz Game");
       }
-    break;
+      break;
     case 2:
       QuizGame();
       if (QuizGameFinished) {
         GameStatus += 1;
-        printOnLCD("Aktuelle Station","Keypad Game");
+        printOnLCD("Aktuelle Station", "Keypad Game");
         delay(2000);
         LCDwelcomeScreen();                                // Show welcome Screen for Keypad Game
       }
-    break;
+      break;
     case 3:
       keyPadGame();
       if (KeypadFinished) {
         GameStatus += 1;
-        printOnLCD("Aktuelle Station","Bar Game");
+        printOnLCD("Aktuelle Station", "Bar Game");
       }
-    break;
+      break;
     case 4:
       BarGame();
       if (BarGameFinished) {
         GameStatus = 0;
         endOfGame();
       }
-    break;
-    
+      break;
+
   }
 
 }
@@ -153,14 +153,14 @@ void KeypadGameEvent(KeypadEvent key) {                      // Taste auf keypad
   switch (keypad1.getState()) {                          // Status der Taste abfragen
     case PRESSED:
       // keyPressed(key);
-    break;
+      break;
   }
-  
+
 }
 
-void QuizGameEvent(KeypadEvent qg_input){
-  
-  switch (keypad3.getState()){
+void QuizGameEvent(KeypadEvent qg_input) {
+
+  switch (keypad3.getState()) {
     case PRESSED:
       Serial.println("Button pressed");
       ButtonPressedQuiz(qg_input);
@@ -174,16 +174,16 @@ void BarGameEvent(KeypadEvent bg_input) {
       if (bg_input == 'X') {         // Red Button has been pressed
         Serial.println("Red button pressed");
         showSequence();               // Sequence of green LEDs is shown
-        redButtonCounter +=1;
+        redButtonCounter += 1;
         break;
       }
 
-      if( redButtonCounter >= 0 ) {
+      if ( redButtonCounter >= 0 ) {
 
-        if (bg_input == BarGameSequence[(correctBarsCounter)]){      // Pulled bar was correct!
+        if (bg_input == BarGameSequence[(correctBarsCounter)]) {     // Pulled bar was correct!
           BGInputSequence[(correctBarsCounter)] = bg_input;
           Serial.println("Correct");
-          correctSequencing((int(bg_input)-49));
+          correctSequencing((int(bg_input) - 49));
           correctBarsCounter += 1;
         } else {                                                     // Pulled bar was wrong!
           falseSequencing();
@@ -195,9 +195,9 @@ void BarGameEvent(KeypadEvent bg_input) {
           BarGameFinished = 1;
           finalBGSequence();
         }
-        
+
       }
-      
+
   }
 }
 
@@ -205,7 +205,5 @@ void BarGameEvent(KeypadEvent bg_input) {
 //-------------------- End of Game --------------------------------
 
 void endOfGame() {
-  printOnLCD("  Gratulation! ","  Spiel beendet");
+  printOnLCD("  Gratulation! ", "  Spiel beendet");
 }
-
-
