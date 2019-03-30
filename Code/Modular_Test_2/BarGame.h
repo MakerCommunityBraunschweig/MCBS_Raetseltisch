@@ -29,7 +29,7 @@ int redButtonCounter = 0;                                                       
 
 
 int redleds[4] = {15, 17, 19, 21};                                                 // sets Arduino pins for red LEDs
-int greenleds[4] = {16, 18, 20, 22};                                               // sets Arduino pins for green LEDs    
+int greenleds[4] = {16, 18, 20, 22};                                               // sets Arduino pins for green LEDs
 
 
 int BarGameFinished = 0;
@@ -40,52 +40,52 @@ int BarGameFinished = 0;
    This series is to be remembered by the user and reproduced by pulling up the bars of that station
    in the correct order. */
 void showSequence() {
-  for (int i = 0; i <= 4; i++){
-    digitalWrite(greenleds[intBarGameSequence[i]-1], HIGH);
+  for (int i = 0; i <= 4; i++) {
+    digitalWrite(greenleds[intBarGameSequence[i] - 1], HIGH);
     delay(300);
-    digitalWrite(greenleds[intBarGameSequence[i]-1], LOW);
+    digitalWrite(greenleds[intBarGameSequence[i] - 1], LOW);
     delay(100);
   }
 }
 
 /* Turn on the selected LED */
 void activateRedLED(int LEDnum) {
-    Serial.println("RED on");
-    digitalWrite(redleds[LEDnum-1], HIGH);
-    
+  Serial.println("RED on");
+  digitalWrite(redleds[LEDnum - 1], HIGH);
+
 }
 
 /* Turn on the selected LED */
 void activateGreenLED(int LEDnum) {
-    digitalWrite(greenleds[LEDnum-1], HIGH);
+  digitalWrite(greenleds[LEDnum - 1], HIGH);
 }
 
 
 void BarGame() {
 
-  if (BarGameStarted == 0){
+  if (BarGameStarted == 0) {
     Serial.println("BarGame() activated");
-    BarGameStarted = 1; 
+    BarGameStarted = 1;
   }
-  
+
   char bg_input = keypad4.getKey();
 
   if (bg_input) {
     Serial.println(bg_input);
   }
-  
+
 }
 
 
 /* Appears if the chosen bar was wrong.  */
 void falseSequencing() {
 
-  for (int i = 0; i <= 4; i++){
-    for(int j = 0; j <= 3; j++) {
+  for (int i = 0; i <= 4; i++) {
+    for (int j = 0; j <= 3; j++) {
       digitalWrite(redleds[j], HIGH);
     }
     delay(300);
-    for(int j = 0; j <= 3; j++) {
+    for (int j = 0; j <= 3; j++) {
       digitalWrite(redleds[j], LOW);
     }
     delay(100);
@@ -95,8 +95,8 @@ void falseSequencing() {
 
 /* Appears if the chosen bar was correct. */
 void correctSequencing(int A) {
-  
-  for (int i = 0; i <= 1; i++){
+
+  for (int i = 0; i <= 1; i++) {
     digitalWrite(greenleds[A], HIGH);
     delay(1000);
     digitalWrite(greenleds[A], LOW);
@@ -116,35 +116,34 @@ void resetBarGame() {
 /* Appears when the BarGame has been comleteted successfully. */
 void finalBGSequence() {
   for (int j = 1; j <= 5; j++) {
-    for (int i = 0; i <= 4; i++){
-      digitalWrite(greenleds[intBarGameSequence[i]-1], HIGH);
+    for (int i = 0; i <= 4; i++) {
+      digitalWrite(greenleds[intBarGameSequence[i] - 1], HIGH);
     }
     delay(500);
-    for (int i = 0; i <= 4; i++){
-      digitalWrite(greenleds[intBarGameSequence[i]-1], LOW);
+    for (int i = 0; i <= 4; i++) {
+      digitalWrite(greenleds[intBarGameSequence[i] - 1], LOW);
     }
-    delay(200); 
-  } 
+    delay(200);
+  }
 }
 
 
 void generateBarSequence(int slength) {
-  
+
   int outputSequence[slength];
-  for (int i = 0; i <= slength-1; i++){
-    outputSequence[i] = random(1,5);
+  for (int i = 0; i <= slength - 1; i++) {
+    outputSequence[i] = random(1, 5);
   }
-  
+
 }
 
 void BarGamePinSetup() {
 
   // Red and Green LED Pins (8)
-  for(int i = 15; i<= 22; i++) {
-    pinMode(i,OUTPUT);
+  for (int i = 15; i <= 22; i++) {
+    pinMode(i, OUTPUT);
   }
   // Red Button
   //pinMode(53, INPUT);
-  
-}
 
+}

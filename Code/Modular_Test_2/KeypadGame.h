@@ -35,8 +35,8 @@ int counter = 0;      // counts number of digits of Serial number
 
 
 /* Accepts two char arrays with max length of 16.
- * Prints out the message on the LCD display after
- * deleting the previous text. */
+   Prints out the message on the LCD display after
+   deleting the previous text. */
 void printOnLCD(char line1[], char line2[]) {
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -50,7 +50,7 @@ void addToLCD(int col, int row, char text[]) {
   lcd.print(text);
 }
 
-/* Welcome Screen to introduce the user to the mobile escape game by MCBS. 
+/* Welcome Screen to introduce the user to the mobile escape game by MCBS.
    Start of Keypad Game. User is requested to enter the Serial number
    which is painted in red onto the back of the bomb. */
 void LCDwelcomeScreen() {
@@ -65,9 +65,9 @@ void resetKeypad() {
 
 
 /* Appears when input number series has been confirmed by the user,
- * but the number of digits is not sufficient. */
-void LCDmoreNumbers() { 
-  printOnLCD("    Requires", "  more digits!");       
+   but the number of digits is not sufficient. */
+void LCDmoreNumbers() {
+  printOnLCD("    Requires", "  more digits!");
   delay(2000);
 }
 
@@ -80,7 +80,7 @@ void LCDpassword() {
     Serial.print(keyword_in[i]);
   }
   Serial.print('\n');
-    addToLCD(0, 1, "#Delete *Confirm");
+  addToLCD(0, 1, "#Delete *Confirm");
 }
 
 /* Prints dots on LCD display to create more tension for the user
@@ -94,28 +94,28 @@ void LCDdotting(int pos, int row) {
 
 /* Appears when Keypad Game has been finished */
 void LCDcorrect() {
-  printOnLCD("Processing..","");
+  printOnLCD("Processing..", "");
   for (int i = 3; i >= 1; i--) {
     lcd.setCursor(0, 1);
     lcd.print(i);
     LCDdotting(1, 1);
   }
   delay(1500);
-  printOnLCD("  Next Station","   Unlocked!");
+  printOnLCD("  Next Station", "   Unlocked!");
   delay(3000);
   lcd.clear();
 }
 
 /* Appears when Keypad Game has been finished */
 void LCDsolved() {
-  KeypadFinished = 1;  
+  KeypadFinished = 1;
 }
 
 /* Appears when input series has been entered and confirmed by the user
    but is not correct. */
 void LCDwrong() {
   for (int i = 3; i >= 1; i--) {
-    printOnLCD("Self-destruct in..","");
+    printOnLCD("Self-destruct in..", "");
     lcd.setCursor(0, 1);
     lcd.print(i);
     LCDdotting(1, 1);
@@ -123,7 +123,7 @@ void LCDwrong() {
 
   printOnLCD("     ERROR:", "  PIN invalid!");
   delay(3000);
-  printOnLCD("Time Penalty:","  -30 sec");
+  printOnLCD("Time Penalty:", "  -30 sec");
   delay(3000);
 }
 
@@ -135,50 +135,50 @@ void keyPadCode(char key) {
   // key has been pressed
   if (key) {
 
-      // delete last digit
-      if (key == '#') {                              
-        if (counter > 0) {
-          counter -= 1;
-          keyword_in[counter] = ' ';
-          LCDpassword();
+    // delete last digit
+    if (key == '#') {
+      if (counter > 0) {
+        counter -= 1;
+        keyword_in[counter] = ' ';
+        LCDpassword();
+        return;
+      }
+    }
+
+    // code has been confirmed
+    if (key == '*') {
+      if (counter == _dimSerialNr) {
+        if (keyword_in[0] == keyword_set[0] and keyword_in[1] == keyword_set[1] and
+            keyword_in[2] == keyword_set[2] and keyword_in[3] == keyword_set[3] and
+            keyword_in[4] == keyword_set[4] and keyword_in[5] == keyword_set[5] and
+            keyword_in[6] == keyword_set[6] and keyword_in[7] == keyword_set[7]) {
+
+          Serial.println("You got the right Code");
+          LCDcorrect();
+          resetKeypad();
+          LCDsolved();
           return;
         }
-      }
+        if (keyword_in != keyword_set) {
+          Serial.println("Your Code is WRONG");
+          Serial.println("Your timeout is 300 seconds");
+          LCDwrong();
+          delay(3000);
+          lcd.clear();
+          resetKeypad();
+          LCDwelcomeScreen();
 
-      // code has been confirmed
-      if (key == '*') {                             
-        if (counter == _dimSerialNr) {
-          if (keyword_in[0] == keyword_set[0] and keyword_in[1] == keyword_set[1] and
-              keyword_in[2] == keyword_set[2] and keyword_in[3] == keyword_set[3] and
-              keyword_in[4] == keyword_set[4] and keyword_in[5] == keyword_set[5] and
-              keyword_in[6] == keyword_set[6] and keyword_in[7] == keyword_set[7]) {
-
-            Serial.println("You got the right Code");
-            LCDcorrect();
-            resetKeypad();
-            LCDsolved();
-            return;
-          }
-          if (keyword_in != keyword_set) {
-            Serial.println("Your Code is WRONG");
-            Serial.println("Your timeout is 300 seconds");
-            LCDwrong();
-            delay(3000);
-            lcd.clear();
-            resetKeypad();
-            LCDwelcomeScreen();
-
-            return; // need to reset counter to 0
-          }
-        }
-        else {
-          Serial.println("You have to press more numbers");
-          LCDmoreNumbers();
-          LCDpassword();
-          return;
-
+          return; // need to reset counter to 0
         }
       }
+      else {
+        Serial.println("You have to press more numbers");
+        LCDmoreNumbers();
+        LCDpassword();
+        return;
+
+      }
+    }
 
     // add one digit
     else {
@@ -187,10 +187,10 @@ void keyPadCode(char key) {
         LCDpassword();
         counter += 1;
       }
-  
+
       Serial.println(key);
       Serial.println(counter);
-  
+
       if (counter == _dimSerialNr) {
         LCDpassword();
         Serial.println("Press * for check password");
@@ -203,15 +203,13 @@ void keyPadCode(char key) {
 
 
 void keyPadGame() {
-  
-  
+
+
   char key = keypad1.getKey();
   keyPadCode(key);
-  
+
 }
 
 void KeypadGamePinSetup() {
-  
+
 }
-
-

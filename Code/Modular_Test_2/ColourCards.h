@@ -49,8 +49,8 @@ bool colourCardIn() { // testing to see if card is in the slot with green trigge
 }
 
 bool colourCardRed() {
-  
-  if ((red<green) && (green>blue)) {
+
+  if ((red < green) && (green > blue)) {
     Serial.println("Red!");
     return true;
   }
@@ -60,7 +60,7 @@ bool colourCardRed() {
 }
 
 bool colourCardYellow() {
-  if ((red>green) && (green<blue)) {
+  if ((red > green) && (green < blue)) {
     Serial.println("Yellow!");
     return true;
   }
@@ -70,7 +70,7 @@ bool colourCardYellow() {
 }
 
 bool colourCardBlue() {
-  if ((red>green) && (green>blue)) {
+  if ((red > green) && (green > blue)) {
     Serial.println("Blue!");
     return true;
   }
@@ -110,13 +110,13 @@ void colourSense() {
   Serial.print(blue);
   Serial.println("  ");
   delay(10);
-  
+
 }
 
 
 /* Main Method of Colour Cards Game
- *  
- */
+
+*/
 void colourCards() {
   switch (colourCardCounter) {
     case 0:
@@ -135,30 +135,30 @@ void colourCards() {
       break;
   }
 
-  
+
   colourSense();
   detectedColor = _nothing;
-  
+
   // Reading cards, comparing rgb values
   if (colourCardIn()) {
 
-      for(int n = 1; n <= 10; n++){
-        colourSense();
-        if(colourCardRed()){
-          detectedColor = _red;
-        }
-        if(colourCardYellow()) {
-           detectedColor = _yellow;
-        }
-        if(colourCardBlue()) {
-          detectedColor = _blue;
-        }   
+    for (int n = 1; n <= 10; n++) {
+      colourSense();
+      if (colourCardRed()) {
+        detectedColor = _red;
       }
-      
-    
+      if (colourCardYellow()) {
+        detectedColor = _yellow;
+      }
+      if (colourCardBlue()) {
+        detectedColor = _blue;
+      }
+    }
+
+
   }
 
-  
+
   if (colourCardIn() && colourCardRemoved) {
     for (int i = 0; i < 3; i++) { // takes the third value
       colourSense();
@@ -216,12 +216,12 @@ void colourCards() {
 
 void ColourCardsPinSetup() {
   // Colour Sensor, Progress LED, red/green LED
-  for(int i=27; i <= 35; i++) {
+  for (int i = 27; i <= 35; i++) {
     pinMode(i, OUTPUT);
   }
   // Colour Sensor
   pinMode(56, INPUT);
-  
+
 
   // Setting frequency scaling to 20%
   digitalWrite(S0, HIGH);
@@ -230,4 +230,3 @@ void ColourCardsPinSetup() {
   digitalWrite(rLED, HIGH);
   digitalWrite(gLED, LOW);
 }
-
