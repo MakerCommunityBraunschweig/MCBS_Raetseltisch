@@ -2,15 +2,19 @@
 /*return the number of the pressed button */
 int checkButtons() {        
   if (digitalRead(button1) == LOW) {
+    Serial.println("Knopf 1");
     return 1;
   }
   else if (digitalRead(button2) == LOW) {
+    Serial.println("Knopf 2");
     return 2;
   }
   else if (digitalRead(button3) == LOW) {
+    Serial.println("Knopf 3");
     return 3;
   }
   else if (digitalRead(button4) == LOW) {
+    Serial.println("Knopf 4");
     return 4;
   }
   else return 0;
@@ -72,7 +76,7 @@ void runningLight(int iter) {
 }
 
 void BlinkLED(int LEDnum) {                       //lasse LED im interval von 1 sek blinken, falls dauerhaft aufgerufen
-  if (LEDnum < 5 && (millis() / 1000) % 2 == 0) {
+  if (LEDnum < 5 && (millis() / 750) % 2 == 0) {
     turnOnLED(LEDnum);
   }
   else turnOffLED(LEDnum);
