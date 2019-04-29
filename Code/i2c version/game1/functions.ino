@@ -1,90 +1,68 @@
-int cardcolour() {
-  if (colourCardIn() == false) {
-    return 0;
+boolean array_cmp(byte *a, byte *b) {
+  // test each element to be the same. if not, return false
+  for (int i = 0; i < 4; i++) {
+    if (a[i] != b[i]) {
+      return false;
+    }
   }
-  else if ((red < green) && (green > blue)) {
-    Serial.println("Red!");
-    return 1;
-  }
-  else if ((red > green) && (green < blue)) {
-    Serial.println("Yellow!");
-    return 2;
-  }
-  else if ((red > green) && (green > blue)) {
-    Serial.println("Blue!");
-    return 3;
-  }
+  //ok, if we have not returned yet, they are equal :)
+  return true;
 }
 
-void colourSense() {
-  // Setting RED photodiodes to be read
-  digitalWrite(S2, LOW);
-  digitalWrite(S3, LOW);
-  // Reading and saving
-  red = pulseIn(sensorOut, LOW);
-  Serial.print("R = ");
-  Serial.print(red);
-  Serial.print("  ");
-  delay(10);
-
-  // Setting GREEN photodiodes to be read
-  digitalWrite(S2, HIGH);
-  digitalWrite(S3, HIGH);
-  // Reading and saving
-  green = pulseIn(sensorOut, LOW);
-  Serial.print("G = ");
-  Serial.print(green);
-  Serial.print("  ");
-  delay(10);
-
-  // Setting BLUE photodiodes to be read
-  digitalWrite(S2, LOW);
-  digitalWrite(S3, HIGH);
-  // Reading and saving
-  blue = pulseIn(sensorOut, LOW);
-  Serial.print("B = ");
-  Serial.print(blue);
-  Serial.println("  ");
-  delay(10);
-}
-
-void waitForRemove() {
-  while (colourCardIn() == true) {
-    delay(100);
-  }
-}
-
-bool colourCardIn() { // testing to see if card is in the slot with green triggerLED
-  int r = 63;
-  int g = 50;
-  int b = 50;
-  int tol = 50;
-  if ((red >= (r - tol)) && (red <= (r + tol)) && (green >= (g - tol))
-      && (green <= (g + tol)) && (blue >= (b - tol)) && (blue <= (b + tol))) {
-    digitalWrite(rLED, HIGH);
-    digitalWrite(gLED, LOW);
-    Serial.println("Card slot empty!");
-    return false;
+int getCardnumber() {
+  if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial() ) {
+    Serial.print("Gelesene UID:");
+    for (byte i = 0; i < rfid.uid.size; i++) {
+      Serial.print(rfid.uid.uidByte[i]);
+      Serial.print(" ");
+    }
+    Serial.println();
+    if (array_cmp(rfid.uid.uidByte, UID1) == true) {
+      Serial.println("Karte 1 erkannt.");
+      delay(500);
+      rfid.PICC_HaltA();
+      return 1;
+    }
+    else if (array_cmp(rfid.uid.uidByte, UID2) == true) {
+      Serial.println("Karte 2 erkannt.");
+      delay(500);
+      rfid.PICC_HaltA();
+      return 2;
+    }
+    else if (array_cmp(rfid.uid.uidByte, UID3) == true) {
+      Serial.println("Karte 3 erkannt.\n");
+      delay(500);
+      rfid.PICC_HaltA();
+      return 3;
+    }
+    else {
+      Serial.println("Unbekannte Karte erkannt.");
+      delay(500);
+      rfid.PICC_HaltA();
+      return 0;
+    }
   }
   else {
-    return true;
+    rfid.PICC_HaltA();
+    return 0;
   }
 }
 
 void updateProgressLed() {
   switch (gamestatus) {
     case 0:
+    case 1:
       digitalWrite(progressLED1, LOW);
       digitalWrite(progressLED2, LOW);
       digitalWrite(progressLED3, LOW);
       break;
-    case 1:
+    case 2:
       digitalWrite(progressLED1, HIGH);
       break;
-    case 2:
+    case 3:
       digitalWrite(progressLED2, HIGH);
       break;
-    case 3:
+    case 4:
       digitalWrite(progressLED3, HIGH);
       break;
   }

@@ -1,103 +1,81 @@
+#include <SPI.h>
+#include <MFRC522.h>
 #include <Wire.h>
-
-#define S0 2
-#define S1 3
-#define S2 4
-#define S3 5
-#define rLED 6
+/*
+  SCK  13
+  MISO 12
+  MOSI 11
+  SDA  10
+  RST  9
+*/
+#define rLED 8
 #define gLED 7
-#define sensorOut 8
-#define progressLED1 9
-#define progressLED2 10
-#define progressLED3 11
+#define progressLED1 6
+#define progressLED2 5
+#define progressLED3 4
+#define SS_PIN 10
+#define RST_PIN 9
 
+MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
 //--------------------Station colourCards------------------------------
 char output = 0;
-int gamestatus = 0;
-unsigned int red = 0;      // rgb values stored here
-unsigned int green = 0;
-unsigned int blue = 0;
-bool colourCardRemoved = true; // flag needed to exit for-loop after correct card is inserted
-
-# define _red 1
-# define _yellow 3
-# define _blue 2
-# define _nothing 0
-
+int gamestatus = 1;
+int cardnumber = 0;
+const byte UID1[] = {41, 24, 150, 38};
+const byte UID2[] = {41, 226, 205, 39};
+const byte UID3[] = {137, 29, 31, 86};
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("Initialisiere...");
+  SPI.begin(); // Init SPI bus
   Wire.begin(1);                // join i2c bus with address #8
   Wire.onRequest(requestEvent); // register event
   Wire.onReceive(receiveEvent); // register event
 
-  pinMode(S0, OUTPUT);
-  pinMode(S1, OUTPUT);
-  pinMode(S2, OUTPUT);
-  pinMode(S3, OUTPUT);
   pinMode(rLED, OUTPUT);
   pinMode(gLED, OUTPUT);
   pinMode(progressLED1, OUTPUT);
   pinMode(progressLED2, OUTPUT);
   pinMode(progressLED3, OUTPUT);
-  pinMode(sensorOut, INPUT);
 
-  // Setting frequency scaling to 20%
-  digitalWrite(S0, HIGH);
-  digitalWrite(S1, LOW);
+  rfid.PCD_Init(); // Init MFRC522
+
   // Setting initial values for LEDs
-  digitalWrite(rLED, HIGH);
-  digitalWrite(gLED, LOW);
+//  for ( int i = 4; i < 9; i++) {
+//    digitalWrite(i, HIGH);
+//    delay (200);
+//  }
+//  for ( int i = 4; i < 9; i++) {
+//    digitalWrite(i, LOW);
+//    delay (200);
+//  }
+  Serial.println("Initialisierung abgeschlossen.");
 }
 
 void loop() {
-  colourSense();
-  switch (gamestatus) {
-
-    case 1:
-      switch (cardcolour()) {
-        case 0:
-          break;
-
-        case _red:
-          gamestatus++;
-          updateProgressLed();
-          break;
-
-        default:
-          output = 'f';
-      }
-      break;
-
-    case 2:
-      switch (cardcolour()) {
-        case 0:
-          break;
-
-        case _blue:
-          gamestatus++;
-          updateProgressLed();
-          break;
-
-        default:
-          output = 'f';
-      }
-      break;
-
-    case 3:
-      switch (cardcolour()) {
-        case 0:
-          break;
-
-        case _yellow:
-          output = 's';
-          updateProgressLed();
-          break;
-
-        default:
-          output = 'f';
-      }
-      break;
+  if (gamestatus > 0 && gamestatus < 5) {
+    cardnumber = getCardnumber();
+    if (cardnumber == gamestatus && gamestatus < 4 && cardnumber > 0) {
+      gamestatus++;
+      Serial.println("Richtig! Nächste Karte\n");
+      digitalWrite(gLED, HIGH);
+      delay (1000);
+      digitalWrite(gLED, LOW);
+    }
+    else if (cardnumber != gamestatus && gamestatus < 4 && cardnumber > 0) {
+      output = 'f';
+      gamestatus = 1;
+      Serial.println("Falsch! Nochmal von vorne!\n");
+      digitalWrite(rLED, HIGH);
+      delay (1000);
+      digitalWrite(rLED, LOW);
+    }
+    else if ( gamestatus == 4) {
+      output = 's';
+      Serial.println("Bravo! Station gelöst!\n");
+      gamestatus++;
+    }
   }
-  waitForRemove();
+  updateProgressLed();
 }

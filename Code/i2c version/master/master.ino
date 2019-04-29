@@ -31,8 +31,8 @@ void setup() {
   Wire.begin();        // join i2c bus (address optional for master)
   Serial.begin(9600);  // start serial for output
   pinMode(startbutton, INPUT_PULLUP);
+  //animationFC() ;
   //animationStartup();
-
   // ------------------- Timer for SevSeg Display ------------------------
   tm1637.init();
   tm1637.set(BRIGHTEST);                // BRIGHT_TYPICAL = 2,BRIGHT_DARKEST = 0,BRIGHTEST = 7;
