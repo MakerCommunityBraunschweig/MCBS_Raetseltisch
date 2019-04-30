@@ -41,15 +41,15 @@ void setup() {
 
   rfid.PCD_Init(); // Init MFRC522
 
-  // Setting initial values for LEDs
-//  for ( int i = 4; i < 9; i++) {
-//    digitalWrite(i, HIGH);
-//    delay (200);
-//  }
-//  for ( int i = 4; i < 9; i++) {
-//    digitalWrite(i, LOW);
-//    delay (200);
-//  }
+//testing all LED's
+  for ( int i = 4; i < 9; i++) {
+    digitalWrite(i, HIGH);
+    delay (200);
+  }
+  for ( int i = 4; i < 9; i++) {
+    digitalWrite(i, LOW);
+    delay (200);
+  }
   Serial.println("Initialisierung abgeschlossen.");
 }
 
