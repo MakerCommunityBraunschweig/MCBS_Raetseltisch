@@ -1,17 +1,22 @@
 //Lässt die grünen Leds in der generierten Reinfolge leuchten
 void blinkSequence() {
+  Serial.println("Spiele Sequenz ab.");
   for (int i = 0; i < sizeof(sequence); i++) {
     digitalWrite(green_Led[sequence[i]], HIGH);
-    delay(375);
+    delay(150);
     digitalWrite(green_Led[sequence[i]], LOW);
+    delay(150);
   }
-  delay(1000);
+  Serial.println("Sequenz abgespielt. Erwarte Eingabe");
 }
 
 //Sucht nach gedrücktem Knopf und gibt dessen Wert zurück
 int get_button() {
   for (int i = 1; i <= 4; i++) {
     if (digitalRead(button[i]) == LOW) {
+      Serial.print("Knopf ");
+      Serial.print(i);
+      Serial.println(" gedrückt.");
       return (i);
     }
     else return 0;

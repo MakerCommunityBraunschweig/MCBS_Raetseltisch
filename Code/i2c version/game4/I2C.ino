@@ -9,6 +9,7 @@ void receiveEvent(int howMany) {
     Serial.print(input);        // print the character
     switch  (input) {
       case 'a':
+        output = 'a';
         gamestatus = 1;         //start the game
         Serial.println("Das Spiel wurde aktiviert");
         break;

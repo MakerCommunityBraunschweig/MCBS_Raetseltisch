@@ -2,7 +2,7 @@
 //Setzt das Spiel in den Ausgangsmodus zurück und generiert eine neue Sequenz
 void reset() {
   Serial.println("Setze Spiel zurück:");
-  gamestatus = 0;
+  gamestatus = 1;
   Serial.print("Gamestatus: ");
   Serial.println(gamestatus);
   for ( int i = 0; i < pin_length; i++) {

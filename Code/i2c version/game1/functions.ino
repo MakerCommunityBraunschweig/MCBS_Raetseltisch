@@ -79,7 +79,7 @@ void progress() {
 
 //Setzt das Spiel in den Ausgangszustand zurück
 void reset() {
-  gamestatus = 0;
+  gamestatus = 1;
   Serial.println("Das Spiel wurde zurückgesetzt");
 }
 
@@ -95,7 +95,7 @@ void fail() {
   output = 'f';
   gamestatus = 1;
   Serial.println("Falsch! Nochmal von vorne!\n");
-  for ( int i = 0, i < 3, i++) {
+  for ( int i = 0; i < 3; i++) {
     digitalWrite(rLED, HIGH);
     delay (250);
     digitalWrite(rLED, LOW);

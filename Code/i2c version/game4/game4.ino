@@ -11,10 +11,11 @@ byte sequence[5];
 byte input[sizeof(sequence)];
 byte input_length = 0;
 char output = 0;
-byte gamestatus = 0;
+byte gamestatus = 1;
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("Initialisiere...");
   Wire.begin(4);                // join i2c bus with address #8
   Wire.onRequest(requestEvent); // register event
   Wire.onReceive(receiveEvent); // register event
@@ -28,6 +29,7 @@ void setup() {
   }
   //Generiere zufällige Sequenz und mache Spiel bereit
   reset();
+  Serial.println("Spiel initialisiert.\n");
 }
 
 void loop() {
@@ -48,6 +50,10 @@ void loop() {
       if (pressed_button > 0) {
         input[input_length] = pressed_button;
         input_length++;
+        digitalWrite(green_Led[pressed_button], HIGH);
+        delay(200);
+        digitalWrite(green_Led[pressed_button], LOW);
+        delay(50);
       }
 
       //Vergleiche Input mit geforderter Sequenz

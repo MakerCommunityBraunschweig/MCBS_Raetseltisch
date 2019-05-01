@@ -3,27 +3,40 @@
 #include <TM1637.h>
 
 //Gamesettings
-const int   penalty = 30;
-const int   gametime = 300;
+const byte   penalty = 30;
+const short  gametime = 300;
 
-//TM1637 pins
+/*
+ * Beschreibung der Stages:
+ *  Stage | Beschreibung
+ *  
+ *  0     | Standby - warte auf Start durch Startknopf
+ *  1     | Spiel 1
+ *  2     | Spiel 2
+ *  3     | Spiel 3
+ *  4     | Spiel 4
+ *  5     | Spiel gewonnen
+ *  6     | Spiel verloren
+ *  7     | Standby - warte auf Reset
+ */
+
+
+
+//Pin- Setup
 #define CLK 2
 #define DIO 3
-
-//startbutton
-#define startbutton 5
-
-//buzzer pin
-#define buzzerPin   6
+#define startbutton  5
+#define reset_button 6
+#define buzzerPin   7
 
 TM1637 tm1637(CLK, DIO);      // create timer object with correct pin numbers
 Buzzer buzzer(buzzerPin);
 
 //game-intern variables
-int   starttime = 0;
-int   stage = 0;
-char  recievedData = 0;
-int   timer = gametime;         //gametime
+byte stage = 0;
+char recievedData = 0;
+int timer = gametime;         //gametime
+unsigned long starttime = 0;
 unsigned long previousMillis = 0;
 const long interval = 1000;
 
@@ -31,13 +44,14 @@ void setup() {
   Wire.begin();        // join i2c bus (address optional for master)
   Serial.begin(9600);  // start serial for output
   pinMode(startbutton, INPUT_PULLUP);
+  pinMode(reset_button, INPUT_PULLUP);
   //animationFC() ;
-  //animationStartup();
+  animationStartup();
   // ------------------- Timer for SevSeg Display ------------------------
   tm1637.init();
   tm1637.set(BRIGHTEST);                // BRIGHT_TYPICAL = 2,BRIGHT_DARKEST = 0,BRIGHTEST = 7;
   tm1637.point(POINT_ON);
-  gameReset();
+  reset();
 }
 
 void loop() {
@@ -53,21 +67,18 @@ void loop() {
       break;
     //Win
     case 5:
-      animationWin();
-      Serial.println("Gewonnen!");
-      Serial.print("Spielzeit: ");
-      Serial.println((300000 - previousMillis) / 1000);
-      //fancy action sequenz, SPIELENDE
+      win();
+      stage = 7;
       break;
 
     //Game Over
     case 6:
-      Serial.println("Game over!");
-      animationGameOver();
-      delay(5000);
-      gameReset();
+      fail();
+      stage = 7;
       break;
     //
+    case 7:
+      wait_for_reset();
     default:
       updateTimer();
       Wire.requestFrom(1, stage);     // request 1 bytes from slave device #stage

@@ -3,19 +3,19 @@
 #include <Wire.h>
 
 /*LCD setup*/
-#define rs_pin 12
-#define en_pin 11
-#define d4_pin 5
-#define d5_pin 4
-#define d6_pin 3
-#define d7_pin 2
+#define rs_pin 2
+#define en_pin 3
+#define d4_pin 4
+#define d5_pin 5
+#define d6_pin 6
+#define d7_pin 7
 LiquidCrystal lcd(rs_pin, en_pin, d4_pin, d5_pin, d6_pin, d7_pin);
 
 /*Keypad setup*/
 const byte ROWS = 4; //four rows
 const byte COLS = 3; //three columns
-byte rowPins[ROWS] = {3, 2, 1, 0};//connect to the row pinouts of the keypad
-byte colPins[COLS] = {7, 6, 5};   //connect to the column pinouts of the keypad
+byte rowPins[ROWS] = {9, 10, 11, 12};//connect to the row pinouts of the keypad
+byte colPins[COLS] = {A1, A2, A3};   //connect to the column pinouts of the keypad
 char hexaKeys[ROWS][COLS] = {
   {'1', '2', '3'},
   {'4', '5', '6'},
@@ -26,11 +26,11 @@ Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS
 
 /*Game setup*/
 char output = 0;
-int gamestatus = 0;
+int gamestatus = 1;
 const byte pin_length = 8;
 byte input_length = 0;
 const char pin_code[] = {"06042017"};
-char input[sizeof(pin_code];
+char input[sizeof(pin_code)];
 
 void setup() {
   Serial.begin(9600);

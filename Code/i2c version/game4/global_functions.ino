@@ -1,8 +1,7 @@
 
 //Setzt das Spiel in den Ausgangsmodus zurück und generiert eine neue Sequenz
 void reset() {
-  Serial.println("Setze Spiel zurück:");
-  gamestatus = 0;
+  gamestatus = 1;
   Serial.print("Gamestatus: ");
   Serial.println(gamestatus);
   Serial.print("Neue Sequenz: ");
@@ -13,7 +12,7 @@ void reset() {
     Serial.print(" ");
   }
   byte input_length = 0;
-  Serial.println("\n");
+  Serial.println();
   Serial.println("Das Spiel wurde zurückgesetzt.");
 }
 
@@ -29,6 +28,13 @@ void win() {
 
 //Auszuführende Befehle, falls falsche Sequenz eingegeben
 void fail() {
+  Serial.print("Eingegebene Sequenz ' ");
+  for (int i = 0; i < sizeof(sequence); i++) {
+    Serial.print(input[i]);
+    Serial.print(" ");
+  }
+  Serial.println("' ist falsch.\n");
+  //Lasse rote LEDS blinken
   output = 'f';
   gamestatus = 1;
   input_length = 0;
