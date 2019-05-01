@@ -20,7 +20,6 @@ int checkButtons() {
   else return 0;
 }
 
-
 // ------ Methods used for control of the four button LEDs --------
 
 /* turn on the leds according to the gamestatus*/
@@ -60,7 +59,6 @@ void turnOffAllLEDs() {
     digitalWrite(LED_Pins[i], LOW);
   }
 }
-
 
 void runningLight(int iter) {
   for (int j = 1; j <= iter; j++) {

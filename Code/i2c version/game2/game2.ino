@@ -32,25 +32,23 @@ void setup() {
 }
 
 void loop() {
-  if (gamestatus > 0/* && gamestatus < 5*/) {             //wait for game to be started by master controler
+
+  if (gamestatus > 0 && gamestatus < 5) {             //wait for game to be started by master controler
     pressedButton = checkButtons(); //check for pressed buttons
     BlinkLED(gamestatus);           //make the LED of the current stage blink
+
     if (pressedButton != lastPressedButton) { //exclude that button is being pressed and held
       lastPressedButton = pressedButton;
+
       if (pressedButton > 0 && pressedButton == answers[gamestatus]) { // check whether the right button was pressed
-        gamestatus ++;                                                     // if so, go to next question
-        Serial.print("Gamestatus");
-        Serial.println(gamestatus);
+        progress();
+
         if (gamestatus == 5) {                                             // if last question was solved, send data to master
-          output = 's';
-          Serial.println("Spielende");
+          win();
         }
       }
       else if (pressedButton > 0) {                                                               // if button was false
-        Serial.println("WRONG!");
-        output = 'f';                                                      // send according data to master
-        BlinkAllLEDs();                                                    // play an animation
-        gamestatus = 1;                                                    // return to first question
+        fail();
       }
       updateProgressIndicator();                                           // uptate led indicator to current stage
     }

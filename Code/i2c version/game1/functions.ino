@@ -67,3 +67,38 @@ void updateProgressLed() {
       break;
   }
 }
+
+//Auszuführen, falls eine richtige Karte eingesteckt wurde
+void progress() {
+  gamestatus++;
+  Serial.println("Richtig! Nächste Karte\n");
+  digitalWrite(gLED, HIGH);
+  delay (1000);
+  digitalWrite(gLED, LOW);
+}
+
+//Setzt das Spiel in den Ausgangszustand zurück
+void reset() {
+  gamestatus = 0;
+  Serial.println("Das Spiel wurde zurückgesetzt");
+}
+
+//Auszuführen, falls Spiel gelöst wurde
+void win() {
+  output = 's';
+  Serial.println("Bravo! Station gelöst!\n");
+  gamestatus++;
+}
+
+//Auszuführen, falls ein Fehler gemacht wurde
+void fail() {
+  output = 'f';
+  gamestatus = 1;
+  Serial.println("Falsch! Nochmal von vorne!\n");
+  for ( int i = 0, i < 3, i++) {
+    digitalWrite(rLED, HIGH);
+    delay (250);
+    digitalWrite(rLED, LOW);
+    delay(250);
+  }
+}

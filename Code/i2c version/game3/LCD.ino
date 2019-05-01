@@ -11,28 +11,13 @@ void addToLCD(int col, int row, char text[]) {
   lcd.print(text);
 }
 
-void LCDwelcomeScreen() {
-  printOnLCD("Enter Serial Nr:", "   ===MCBS===");
-}
-
-void resetKeypad() {
-  char keyword_in[_dimSerialNr] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-  counter = 0;
-  Serial.println(keyword_in);
-}
-
-void LCDmoreNumbers() {
-  printOnLCD("    Requires", "  more digits!");
-  delay(2000);
-}
-
 void LCDpassword() {
   lcd.clear();
 
-  for ( unsigned i = 0; i < _dimSerialNr; i++) {
+  for ( unsigned i = 0; i < pin_length; i++) {
     lcd.setCursor(i, 0);
-    lcd.print(keyword_in[i]);
-    Serial.print(keyword_in[i]);
+    lcd.print(input[i]);
+    Serial.print(input[i]);
   }
   Serial.print('\n');
   addToLCD(0, 1, "#Delete *Confirm");

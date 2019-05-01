@@ -32,12 +32,12 @@ void setup() {
 
 void loop() {
   //warte bis Spiel gestartet wird
-  if (gamestatus > 0 && gamestatus < 3) {
+  if (gamestatus > 0) {
 
     //Spiele Sequenz ab und fordere danach die Eingabe
     if (digitalRead(startbutton) == HIGH && gamestatus == 1) {
       blinkSequence();
-      gamestatus = 2;
+      progress();
     }
 
     //Wenn Sequenz abgespielt wurde, erwarte Eingabe

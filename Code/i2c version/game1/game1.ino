@@ -19,8 +19,7 @@
 MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
 //--------------------Station colourCards------------------------------
 char output = 0;
-int gamestatus = 1;
-int cardnumber = 0;
+byte gamestatus = 0;
 const byte UID1[] = {41, 24, 150, 38};
 const byte UID2[] = {41, 226, 205, 39};
 const byte UID3[] = {137, 29, 31, 86};
@@ -41,7 +40,7 @@ void setup() {
 
   rfid.PCD_Init(); // Init MFRC522
 
-//testing all LED's
+  //testing all LED's
   for ( int i = 4; i < 9; i++) {
     digitalWrite(i, HIGH);
     delay (200);
@@ -50,31 +49,21 @@ void setup() {
     digitalWrite(i, LOW);
     delay (200);
   }
+  reset();
   Serial.println("Initialisierung abgeschlossen.");
 }
 
 void loop() {
   if (gamestatus > 0 && gamestatus < 5) {
-    cardnumber = getCardnumber();
+     byte cardnumber = getCardnumber();
     if (cardnumber == gamestatus && gamestatus < 4 && cardnumber > 0) {
-      gamestatus++;
-      Serial.println("Richtig! Nächste Karte\n");
-      digitalWrite(gLED, HIGH);
-      delay (1000);
-      digitalWrite(gLED, LOW);
+      progress();
     }
     else if (cardnumber != gamestatus && gamestatus < 4 && cardnumber > 0) {
-      output = 'f';
-      gamestatus = 1;
-      Serial.println("Falsch! Nochmal von vorne!\n");
-      digitalWrite(rLED, HIGH);
-      delay (1000);
-      digitalWrite(rLED, LOW);
+      fail();
     }
     else if ( gamestatus == 4) {
-      output = 's';
-      Serial.println("Bravo! Station gelöst!\n");
-      gamestatus++;
+      win();
     }
   }
   updateProgressLed();
