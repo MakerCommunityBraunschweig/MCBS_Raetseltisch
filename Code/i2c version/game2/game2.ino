@@ -13,7 +13,7 @@ const int button_Pins[5] = {0, button1, button2, button3, button4}; //makes use 
 const int LED_Pins[5] = {0, led1, led2, led3, led4};  //makes use easier on other tabs
 int LED_Status[5] = {0, 0, 0, 0, 0};
 
-char output = 0;
+char output = 'o';
 int gamestatus = 0;
 int pressedButton = 0;
 int lastPressedButton = 0;
@@ -54,7 +54,4 @@ void loop() {
     }
   }
   else runningLight(1);                                                    // play runlight in idle mode
-  if (millis() > 3000 && gamestatus == 0) {
-    gamestatus++;
-  }
 }

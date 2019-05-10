@@ -1,8 +1,18 @@
 void win() {
-  animationWin();
   Serial.println("Gewonnen!");
   Serial.print("Spielzeit: ");
-  Serial.println((300000 - previousMillis) / 1000);
+  int spielzeit = previousMillis / 1000;
+  int d = spielzeit % 10;                 // Calculate 4 separate digits: [a b : c d]
+  int b = spielzeit / 60;
+  int c = (spielzeit - (b * 60) - d) / 10;
+
+  Serial.print(0);
+  Serial.print(b);
+  Serial.print(':');
+  Serial.print(c);
+  Serial.print(d);
+  Serial.print('\n');
+  animationWin();
 }
 
 void fail() {
@@ -14,8 +24,8 @@ void progress() {
 
 }
 
-void wait_for_reset(){
-  if(digitalRead(reset_button)==HIGH){
+void wait_for_reset() {
+  if (digitalRead(reset_button) == LOW) {
     reset();
   }
 }

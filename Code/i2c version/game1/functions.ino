@@ -79,7 +79,7 @@ void progress() {
 
 //Setzt das Spiel in den Ausgangszustand zurück
 void reset() {
-  gamestatus = 1;
+  gamestatus = 0;
   Serial.println("Das Spiel wurde zurückgesetzt");
 }
 

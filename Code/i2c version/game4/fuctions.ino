@@ -3,24 +3,32 @@ void blinkSequence() {
   Serial.println("Spiele Sequenz ab.");
   for (int i = 0; i < sizeof(sequence); i++) {
     digitalWrite(green_Led[sequence[i]], HIGH);
-    delay(150);
+    delay(250);
     digitalWrite(green_Led[sequence[i]], LOW);
-    delay(150);
+    delay(250);
   }
   Serial.println("Sequenz abgespielt. Erwarte Eingabe");
 }
 
 //Sucht nach gedrücktem Knopf und gibt dessen Wert zurück
 int get_button() {
-  for (int i = 1; i <= 4; i++) {
-    if (digitalRead(button[i]) == LOW) {
-      Serial.print("Knopf ");
-      Serial.print(i);
-      Serial.println(" gedrückt.");
-      return (i);
-    }
-    else return 0;
+  if (digitalRead(button[1]) == LOW) {
+    return 1;
+    Serial.print("Knopf 1 gedrückt"); 
   }
+  else if (digitalRead(button[2]) == LOW) {
+    return 2;
+    Serial.print("Knopf 2 gedrückt");
+  }
+  else if (digitalRead(button[3]) == LOW) {
+    return 3;
+    Serial.print("Knopf 3 gedrückt");
+  }
+  else if (digitalRead(button[4]) == LOW) {
+    return 4;
+    Serial.print("Knopf 4 gedrückt");
+  }
+  else return 0;
 }
 
 //Vergleicht die Einträge zweier Arrays und gibt bei gleichheit 'true' zurück

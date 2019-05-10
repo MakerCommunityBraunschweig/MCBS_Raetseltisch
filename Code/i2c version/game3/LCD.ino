@@ -6,6 +6,14 @@ void printOnLCD(char line1[], char line2[]) {
   lcd.print(line2);
 }
 
+void print_serialnumber(){
+  lcd.setCursor(0,2);
+  for(int i = 0; i<8; i++){
+    lcd.setCursor(i,2);
+    lcd.print(input[i]);
+  }
+}
+
 void addToLCD(int col, int row, char text[]) {
   lcd.setCursor(col, row);
   lcd.print(text);

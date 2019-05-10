@@ -2,16 +2,16 @@
 
 #define startbutton A1
 const byte button[]     = {0, 2, 3, 4, 5};
-const byte red_Led[]    = {0, 6, 8, 10, 12};
-const byte green_Led[]  = {0, 7, 9, 11, 13};
+const byte red_Led[]    = {0, 7, 8, 10, A0};
+const byte green_Led[]  = {0, 6, 9, 11, 13};
 
 //Arraylänge gibt Anzahl der zu merkenden Lampen vor
-byte sequence[5];
+byte sequence[6];
 
 byte input[sizeof(sequence)];
 byte input_length = 0;
-char output = 0;
-byte gamestatus = 1;
+char output = 'o';
+byte gamestatus = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -30,6 +30,14 @@ void setup() {
   //Generiere zufällige Sequenz und mache Spiel bereit
   reset();
   Serial.println("Spiel initialisiert.\n");
+
+  for ( int i = 1; i < 5; i++) {
+    digitalWrite(red_Led[i], HIGH);
+    digitalWrite(green_Led[i], HIGH);
+    delay(500);
+    digitalWrite(red_Led[i], LOW);
+    digitalWrite(green_Led[i], LOW);
+  }
 }
 
 void loop() {
@@ -37,7 +45,7 @@ void loop() {
   if (gamestatus > 0) {
 
     //Spiele Sequenz ab und fordere danach die Eingabe
-    if (digitalRead(startbutton) == HIGH && gamestatus == 1) {
+    if (digitalRead(startbutton) == LOW && gamestatus == 1) {
       blinkSequence();
       progress();
     }
@@ -51,7 +59,7 @@ void loop() {
         input[input_length] = pressed_button;
         input_length++;
         digitalWrite(green_Led[pressed_button], HIGH);
-        delay(200);
+        delay(500);
         digitalWrite(green_Led[pressed_button], LOW);
         delay(50);
       }

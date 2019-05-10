@@ -19,7 +19,7 @@
 MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
 //--------------------Station colourCards------------------------------
 char output = 0;
-byte gamestatus = 1;
+byte gamestatus = 0;
 const byte UID1[] = {41, 24, 150, 38};
 const byte UID2[] = {41, 226, 205, 39};
 const byte UID3[] = {137, 29, 31, 86};

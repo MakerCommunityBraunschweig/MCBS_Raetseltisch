@@ -13,13 +13,11 @@ void checkPin() {
     // Aktion für falschen Pin ausführen
     fail();
   }
-
-  // Nach Überprüfung Eingabe leeren
-  for (int i = 0; i < pin_length; i++) {
-    input[i] = '-';
-  }
 }
 
 void pinShort() {
   printOnLCD("Eingabe           ", "unvollstaendig  ");
+  delay(1000);
+  lcd.clear();
+  screen1 = false;
 }

@@ -7,27 +7,28 @@ const byte   penalty = 30;
 const short  gametime = 300;
 
 /*
- * Beschreibung der Stages:
- *  Stage | Beschreibung
- *  
- *  0     | Standby - warte auf Start durch Startknopf
- *  1     | Spiel 1
- *  2     | Spiel 2
- *  3     | Spiel 3
- *  4     | Spiel 4
- *  5     | Spiel gewonnen
- *  6     | Spiel verloren
- *  7     | Standby - warte auf Reset
- */
+   Beschreibung der Stages:
+    Stage | Beschreibung
+
+    0     | Standby - warte auf Start durch Startknopf
+    1     | Spiel 1
+    2     | Spiel 2
+    3     | Spiel 3
+    4     | Spiel 4
+    5     | Spiel gewonnen
+    6     | Spiel verloren
+    7     | Standby - warte auf Reset
+*/
 
 
 
 //Pin- Setup
 #define CLK 2
 #define DIO 3
-#define startbutton  5
+#define startbutton  4
 #define reset_button 6
-#define buzzerPin   7
+#define cheatbutton 7
+#define buzzerPin   5
 
 TM1637 tm1637(CLK, DIO);      // create timer object with correct pin numbers
 Buzzer buzzer(buzzerPin);
@@ -41,12 +42,13 @@ unsigned long previousMillis = 0;
 const long interval = 1000;
 
 void setup() {
-  Wire.begin();        // join i2c bus (address optional for master)
+  Wire.begin(99);        // join i2c bus (address optional for master)
   Serial.begin(9600);  // start serial for output
   pinMode(startbutton, INPUT_PULLUP);
   pinMode(reset_button, INPUT_PULLUP);
+  pinMode(cheatbutton, INPUT_PULLUP);
   //animationFC() ;
-  animationStartup();
+  //animationStartup();
   // ------------------- Timer for SevSeg Display ------------------------
   tm1637.init();
   tm1637.set(BRIGHTEST);                // BRIGHT_TYPICAL = 2,BRIGHT_DARKEST = 0,BRIGHTEST = 7;
@@ -55,6 +57,17 @@ void setup() {
 }
 
 void loop() {
+  if (digitalRead(cheatbutton) == LOW) {
+    stage++;
+    if (stage <= 4) {
+      Wire.beginTransmission(stage);  // transmit to device
+      Wire.write('a');                // activate next game
+      Wire.endTransmission();         // stop transmitting
+      Serial.println("aktiviere nächstes Modul");
+    }
+    Serial.println("Du Cheater!");
+    delay(1000);
+  }
   switch (stage) {
     //Standby
     case 0:
@@ -62,6 +75,12 @@ void loop() {
         Serial.println("Spiel gestartet");
         starttime = millis();
         stage++;
+        Wire.beginTransmission(1);  // transmit to device
+        char output = 'a';
+        Wire.write(output);                // activate next game
+        delay(25);
+        Wire.endTransmission();         // stop transmitting
+        Serial.println("aktiviere erstes Modul");
         //fancy startanimation + sound
       }
       break;
@@ -79,9 +98,11 @@ void loop() {
     //
     case 7:
       wait_for_reset();
+      break;
+
     default:
       updateTimer();
-      Wire.requestFrom(1, stage);     // request 1 bytes from slave device #stage
+      Wire.requestFrom(stage, 1);     // request 1 bytes from slave device #stage
       while (Wire.available()) {      // slave may send less than requested
         recievedData = Wire.read();              // receive a byte as character
       }
@@ -109,9 +130,13 @@ void loop() {
         //stage has been solved
         case 's':
           Serial.println("Modul gelöst");
-          Wire.beginTransmission(++stage);  // transmit to device
-          Wire.write('a');                // activate next game
-          Wire.endTransmission();         // stop transmitting
+          stage++;
+          if (stage <= 4) {
+            Wire.beginTransmission(stage);  // transmit to device
+            Wire.write('a');                // activate next game
+            Wire.endTransmission();         // stop transmitting
+            Serial.println("aktiviere nächstes Modul");
+          }
           break;
       }
   }
