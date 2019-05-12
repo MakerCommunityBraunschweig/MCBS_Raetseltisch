@@ -56,22 +56,25 @@ void loop() {
 
       //speichere gedrückten Knopf im array, um am Ende zu vergleichen
       if (pressed_button > 0) {
-        input[input_length] = pressed_button;
-        input_length++;
-        digitalWrite(green_Led[pressed_button], HIGH);
-        delay(500);
-        digitalWrite(green_Led[pressed_button], LOW);
-        delay(50);
+        if (pressed_button == sequence[input_length]) {
+          input_length++;
+          digitalWrite(green_Led[pressed_button], HIGH);
+          delay(500);
+          digitalWrite(green_Led[pressed_button], LOW);
+          delay(50);
+        }
+        else {
+          fail();
+          digitalWrite(red_Led[pressed_button], HIGH);
+          delay(500);
+          digitalWrite(red_Led[pressed_button], LOW);
+          delay(50);
+        }
       }
 
       //Vergleiche Input mit geforderter Sequenz
       if (input_length == sizeof(sequence)) {
-        if (array_comp(sequence, input) == true) {
-          win();
-        }
-        else {
-          fail();
-        }
+        win();
       }
     }
   }

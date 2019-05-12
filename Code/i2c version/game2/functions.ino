@@ -1,20 +1,24 @@
 
 /*return the number of the pressed button */
-int checkButtons() {        
-  if (digitalRead(button1) == LOW) {
+int checkButtons() {
+  if (digitalRead(button_pin[1]) == LOW && millis() - pressed_time[1] > 1000) {
     Serial.println("Knopf 1");
+    pressed_time[1] = millis();
     return 1;
   }
-  else if (digitalRead(button2) == LOW) {
+  else if (digitalRead(button_pin[2]) == LOW && millis() - pressed_time[2] > 1000) {
     Serial.println("Knopf 2");
+    pressed_time[2] = millis();
     return 2;
   }
-  else if (digitalRead(button3) == LOW) {
+  else if (digitalRead(button_pin[3]) == LOW && millis() - pressed_time[3] > 1000) {
     Serial.println("Knopf 3");
+    pressed_time[3] = millis();
     return 3;
   }
-  else if (digitalRead(button4) == LOW) {
+  else if (digitalRead(button_pin[4]) == LOW && millis() - pressed_time[4] > 1000) {
     Serial.println("Knopf 4");
+    pressed_time[4] = millis();
     return 4;
   }
   else return 0;
@@ -36,39 +40,35 @@ void updateProgressIndicator() {
 
 /* Turn on the selected LED */
 void turnOnLED(int LEDnum) {
-  LED_Status[LEDnum] = 1;
   digitalWrite(LED_Pins[LEDnum], HIGH);
 }
 
 void turnOnAllLEDs() {
   for (int i = 1; i <= 4; i++) {
-    LED_Status[i] = 1;
     digitalWrite(LED_Pins[i], HIGH);
   }
 }
 
 /* Turn off the selected LED */
 void turnOffLED(int LEDnum) {
-  LED_Status[LEDnum] = 0;
   digitalWrite(LED_Pins[LEDnum], LOW);
 }
 
 void turnOffAllLEDs() {
   for (int i = 1; i <= 4; i++) {
-    LED_Status[i] = 0;
     digitalWrite(LED_Pins[i], LOW);
   }
 }
 
-void runningLight(int iter) {
+void runningLight(int iter, int speed) {
   for (int j = 1; j <= iter; j++) {
     for (int i = 1; i <= 4; i++) {
       turnOnLED(i);
-      delay(100);
+      delay(1000 / speed);
     }
     for (int i = 1; i <= 4; i++) {
       turnOffLED(i);
-      delay(100);
+      delay(1000 / speed);
     }
   }
 }
@@ -80,11 +80,24 @@ void BlinkLED(int LEDnum) {                       //lasse LED im interval von 1 
   else turnOffLED(LEDnum);
 }
 
-void BlinkAllLEDs() {
-  for (int i = 1; i <= 3; i++) {
+void BlinkAllLEDs(int j) {
+  for (int i = 1; i <= j; i++) {
     turnOnAllLEDs();
     delay(200);
     turnOffAllLEDs();
     delay(200);
+  }
+}
+void blink_random() {
+  if (millis() % 1250 == 0) {
+    randomSeed (analogRead(A2));
+    byte i = random(1, 5);
+    while (i == last_i) {
+      i = random(1, 5);
+    }
+    last_i = i;
+    LED_Status[i] = !LED_Status[i];
+    digitalWrite(LED_Pins[i], LED_Status[i]);
+    delay(25);
   }
 }

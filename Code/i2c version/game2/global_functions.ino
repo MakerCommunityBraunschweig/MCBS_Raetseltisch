@@ -12,6 +12,6 @@ void win() {
 void fail() {
   Serial.println("WRONG!");
   output = 'f';        // send according data to master
-  BlinkAllLEDs();      // play an animation
+  BlinkAllLEDs(3);      // play an animation
   gamestatus = 1;      // return to first question
 }

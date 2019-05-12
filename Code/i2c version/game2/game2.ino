@@ -1,23 +1,18 @@
 #include <Wire.h>
 
-#define button1 2
-#define button2 3
-#define button3 4
-#define button4 5
-const int button_Pins[5] = {0, button1, button2, button3, button4}; //makes use easier on other tabs
-
-#define led1 6
-#define led2 7
-#define led3 8
-#define led4 9
-const int LED_Pins[5] = {0, led1, led2, led3, led4};  //makes use easier on other tabs
-int LED_Status[5] = {0, 0, 0, 0, 0};
+const int button_pin[5] = {0, 2, 3, 4, 5}; //makes use easier on other tabs
+const int LED_Pins[5] = {0, 6, 7, 8, 9};  //makes use easier on other tabs
 
 char output = 'o';
 int gamestatus = 0;
+
+bool LED_Status[5] = {false, false, false, false, false};
+byte last_i = 0;
+
 int pressedButton = 0;
 int lastPressedButton = 0;
 const int answers[] = {0, 3, 1, 2, 3};
+unsigned int pressed_time[] = {0, 0, 0, 0, 0};
 
 void setup() {
   Serial.begin(9600);
@@ -26,7 +21,7 @@ void setup() {
   Wire.onReceive(receiveEvent); // register event
 
   for (int i = 1; i <= 4; i++) {    //assing pinModes to buttons and their LEDs
-    pinMode(button_Pins[i], INPUT_PULLUP);
+    pinMode(button_pin[i], INPUT_PULLUP);
     pinMode(LED_Pins[i], OUTPUT);
   }
 }
@@ -53,5 +48,8 @@ void loop() {
       updateProgressIndicator();                                           // uptate led indicator to current stage
     }
   }
-  else runningLight(1);                                                    // play runlight in idle mode
+  else if (gamestatus == 5) {
+    runningLight(1, 10);
+  }
+  else blink_random();                                                   // play runlight in idle mode
 }
