@@ -15,28 +15,26 @@ void win() {
   animationWin();
 }
 
-void fail() {
+void game_over() {
   animationGameOver();
   Serial.println("Game over!");
 }
 
-void progress() {
-
-}
-
 void wait_for_reset() {
-  if (digitalRead(reset_button) == LOW) {
+  if (digitalRead(startbutton) == LOW) {
     reset();
+    delay(1000);
   }
 }
 
 void reset() {
   timer = gametime;
   stage = 0;
-  showTime();
+  interval = 1000;
+  update_display();
   for (int i = 1 ; i <= 4; i++) {
     Wire.beginTransmission(i);  // transmit to device
-    Wire.write('r');                // reset game
+    Wire.write('r');            // reset game
     Wire.endTransmission();
   }
   Serial.println("Spiel wurde zurückgesetzt");

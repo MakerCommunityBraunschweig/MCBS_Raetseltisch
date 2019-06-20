@@ -53,7 +53,7 @@ void loop() {
     char customKey = customKeypad.getKey();
     if (customKey) {
       // Check, ob ASCII Wert des Char einer Ziffer zwischen 0 und 9 entspricht
-      if ((int(customKey) >= 48) && (int(customKey) <= 57) && (input_length <= pin_length)) {
+      if ((int(customKey) >= 48) && (int(customKey) <= 57) && (input_length < pin_length)) {
         input[input_length] = customKey;
         Serial.println(customKey);
         input_length++;

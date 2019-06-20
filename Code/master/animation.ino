@@ -1,25 +1,17 @@
-void animationStartup() {
-  Serial.println("initiating startup");
-  //fancy LED - Animation
-  //startup sound
-  int notendauer = 300;
+void animation_startup() {
+  int n = 300;
   buzzer.begin(5);
-  buzzer.sound(NOTE_C6, 0.5 * notendauer);
-  buzzer.sound(NOTE_E6, 0.5 * notendauer);
-  buzzer.sound(NOTE_G6, notendauer);
-  buzzer.sound(NOTE_E6, 0.5 * notendauer);
-  buzzer.sound(NOTE_G6, 4 * notendauer);
-
-  Serial.println("startup complete");
+  buzzer.sound(NOTE_C6, 0.5 * n);
+  buzzer.sound(NOTE_E6, 0.5 * n);
+  buzzer.sound(NOTE_G6, n);
+  buzzer.sound(NOTE_E6, 0.5 * n);
+  buzzer.sound(NOTE_G6, 4 * n);
 }
 
 void animationGameOver() {
-  int notendauer = 200;
+  int n = 2000;
   buzzer.begin(20);
-  buzzer.sound(NOTE_DS5, 2 * notendauer);
-  buzzer.sound(NOTE_D5, 2 * notendauer);
-  buzzer.sound(NOTE_CS5, 2 * notendauer);
-  buzzer.sound(NOTE_C5, 4 * notendauer);
+  buzzer.sound(piepton, n);
 }
 
 void animationWin() {
@@ -121,4 +113,185 @@ void animationFC() {
   buzzer.sound(NOTE_B5,   0.5 * n);
   buzzer.sound(NOTE_A5,  0.5 * n);
   buzzer.sound(NOTE_B5,   n);
+}
+
+void ente() {
+  int n = 500;
+  buzzer.begin(10);
+  buzzer.sound(NOTE_C5, 0.5 * n);
+  buzzer.sound(NOTE_D5, 0.5 * n);
+  buzzer.sound(NOTE_E5, 0.5 * n);
+  buzzer.sound(NOTE_F5, 0.5 * n);
+  buzzer.sound(NOTE_G5, n);
+  buzzer.sound(NOTE_G5, n);
+  buzzer.sound(NOTE_A5, 0.5 * n);
+  buzzer.sound(NOTE_A5, 0.5 * n);
+  buzzer.sound(NOTE_A5, 0.5 * n);
+  buzzer.sound(NOTE_A5, 0.5 * n);
+  buzzer.sound(NOTE_G5, 2 * n);
+  buzzer.sound(NOTE_A5, 0.5 * n);
+  buzzer.sound(NOTE_A5, 0.5 * n);
+  buzzer.sound(NOTE_A5, 0.5 * n);
+  buzzer.sound(NOTE_A5, 0.5 * n);
+  buzzer.sound(NOTE_G5, 2 * n);
+  buzzer.sound(NOTE_F5, 0.5 * n);
+  buzzer.sound(NOTE_F5, 0.5 * n);
+  buzzer.sound(NOTE_F5, 0.5 * n);
+  buzzer.sound(NOTE_F5, 0.5 * n);
+  buzzer.sound(NOTE_E5, n);
+  buzzer.sound(NOTE_E5, n);
+  buzzer.sound(NOTE_D5, 0.5 * n);
+  buzzer.sound(NOTE_D5, 0.5 * n);
+  buzzer.sound(NOTE_D5, 0.5 * n);
+  buzzer.sound(NOTE_D5, 0.5 * n);
+  buzzer.sound(NOTE_C5, 2 * n);
+}
+
+void starwars() {
+  buzzer.begin(10);
+
+  buzzer.sound(NOTE_A3, 500);
+  buzzer.sound(NOTE_A3, 500);
+  buzzer.sound(NOTE_A3, 500);
+  buzzer.sound(NOTE_F3, 375);
+  buzzer.sound(NOTE_C4, 125);
+
+  buzzer.sound(NOTE_A3, 500);
+  buzzer.sound(NOTE_F3, 375);
+  buzzer.sound(NOTE_C4, 125);
+  buzzer.sound(NOTE_A3, 1000);
+
+  buzzer.sound(NOTE_E4, 500);
+  buzzer.sound(NOTE_E4, 500);
+  buzzer.sound(NOTE_E4, 500);
+  buzzer.sound(NOTE_F4, 375);
+  buzzer.sound(NOTE_C4, 125);
+
+  buzzer.sound(NOTE_GS3, 500);
+  buzzer.sound(NOTE_F3, 375);
+  buzzer.sound(NOTE_C4, 125);
+  buzzer.sound(NOTE_A3, 1000);
+
+  buzzer.sound(NOTE_A4, 500);
+  buzzer.sound(NOTE_A3, 375);
+  buzzer.sound(NOTE_A3, 125);
+  buzzer.sound(NOTE_A4, 500);
+  buzzer.sound(NOTE_GS4, 375);
+  buzzer.sound(NOTE_G4, 125);
+
+  buzzer.sound(NOTE_FS4, 125);
+  buzzer.sound(NOTE_E4, 125);
+  buzzer.sound(NOTE_F4, 250);
+  buzzer.sound(0, 250);
+  buzzer.sound(NOTE_AS3, 250);
+  buzzer.sound(NOTE_DS4, 500);
+  buzzer.sound(NOTE_D4, 375);
+  buzzer.sound(NOTE_CS4, 125);
+
+  buzzer.sound(NOTE_C4, 125);
+  buzzer.sound(NOTE_B3, 125);
+  buzzer.sound(NOTE_C4, 250);
+  buzzer.sound(0, 250);
+  buzzer.sound(NOTE_F3, 250);
+  buzzer.sound(NOTE_GS3, 500);
+  buzzer.sound(NOTE_F3, 375);
+  buzzer.sound(NOTE_A3, 125);
+
+  buzzer.sound(NOTE_C4, 500);
+  buzzer.sound(NOTE_A3, 375);
+  buzzer.sound(NOTE_C4, 125);
+  buzzer.sound(NOTE_E4, 1000);
+
+  buzzer.sound(NOTE_A4, 500);
+  buzzer.sound(NOTE_A3, 375);
+  buzzer.sound(NOTE_A3, 125);
+  buzzer.sound(NOTE_A4, 500);
+  buzzer.sound(NOTE_GS4, 375);
+  buzzer.sound(NOTE_G4, 125);
+
+  buzzer.sound(NOTE_FS4, 125);
+  buzzer.sound(NOTE_E4, 125);
+  buzzer.sound(NOTE_F4, 250);
+  buzzer.sound(0, 250);
+  buzzer.sound(NOTE_AS3, 250);
+  buzzer.sound(NOTE_DS4, 500);
+  buzzer.sound(NOTE_D4, 375);
+  buzzer.sound(NOTE_CS4, 125);
+
+  buzzer.sound(NOTE_C4, 125);
+  buzzer.sound(NOTE_B3, 125);
+  buzzer.sound(NOTE_C4, 250);
+  buzzer.sound(0, 250);
+  buzzer.sound(NOTE_F3, 250);
+  buzzer.sound(NOTE_GS3, 500);
+  buzzer.sound(NOTE_F3, 375);
+  buzzer.sound(NOTE_C4, 125);
+
+  buzzer.sound(NOTE_A3, 500);
+  buzzer.sound(NOTE_F3, 375);
+  buzzer.sound(NOTE_C4, 125);
+  buzzer.sound(NOTE_A3, 1000);
+
+  buzzer.end(2000);
+}
+
+void vogel() {
+  int n = 2000;
+  buzzer.begin(10);
+  buzzer.sound(NOTE_C5, (0.25 + 0.125) * n);
+  buzzer.sound(NOTE_E5, 0.125 * n);
+  buzzer.sound(NOTE_G5, 0.25 * n);
+  buzzer.sound(NOTE_C6, 0.25 * n);
+  buzzer.sound(NOTE_A5, 0.25 * n);
+  buzzer.sound(NOTE_C6, 0.125 * n);
+  buzzer.sound(NOTE_A5, 0.125 * n);
+  buzzer.sound(NOTE_G5, 0.5 * n);
+  buzzer.sound(NOTE_F5, 0.375 * n);
+  buzzer.sound(NOTE_G5, 0.125 * n);
+  buzzer.sound(NOTE_E5, 0.25 * n);
+  buzzer.sound(NOTE_C5, 0.25 * n);
+  buzzer.sound(NOTE_D5, 0.5 * n);
+  buzzer.sound(NOTE_C5, 0.25 * n);
+  delay(0.25 * n);
+
+  buzzer.sound(NOTE_G5, 0.25 * n);
+  buzzer.sound(NOTE_G5, 0.25 * n);
+  buzzer.sound(NOTE_F5, 0.25 * n);
+  buzzer.sound(NOTE_F5, 0.25 * n);
+  buzzer.sound(NOTE_E5, 0.25 * n);
+  buzzer.sound(NOTE_G5, 0.125 * n);
+  buzzer.sound(NOTE_E5, 0.125 * n);
+  buzzer.sound(NOTE_D5, 0.5 * n);
+  buzzer.sound(NOTE_G5, 0.25 * n);
+  buzzer.sound(NOTE_G5, 0.25 * n);
+  buzzer.sound(NOTE_F5, 0.25 * n);
+  buzzer.sound(NOTE_F5, 0.25 * n);
+  buzzer.sound(NOTE_E5, 0.25 * n);
+  buzzer.sound(NOTE_G5, 0.125 * n);
+  buzzer.sound(NOTE_E5, 0.125 * n);
+  buzzer.sound(NOTE_D5, 0.5 * n);
+
+  buzzer.sound(NOTE_C5, 0.375 * n);
+  buzzer.sound(NOTE_E5, 0.125 * n);
+  buzzer.sound(NOTE_G5, 0.25 * n);
+  buzzer.sound(NOTE_C6, 0.25 * n);
+  buzzer.sound(NOTE_A5, 0.25 * n);
+  buzzer.sound(NOTE_C6, 0.125 * n);
+  buzzer.sound(NOTE_A5, 0.125 * n);
+  buzzer.sound(NOTE_G5, 0.5 * n);
+  buzzer.sound(NOTE_F5, 0.375 * n);
+  buzzer.sound(NOTE_G5, 0.125 * n);
+  buzzer.sound(NOTE_E5, 0.25 * n);
+  buzzer.sound(NOTE_C5, 0.25 * n);
+  buzzer.sound(NOTE_D5, 0.5 * n);
+  buzzer.sound(NOTE_C5, 0.5 * n);
+}
+
+void knack() {
+  buzzer.begin(10);
+  for (int i = 0; i < 20; i++) {
+    buzzer.sound(NOTE_C1, 10);
+    delay(100);
+  }
+  buzzer.end(2000);
 }

@@ -53,10 +53,10 @@ void loop() {
     //Wenn Sequenz abgespielt wurde, erwarte Eingabe
     if ( gamestatus == 2) {
       byte pressed_button = get_button();
-
       //speichere gedrückten Knopf im array, um am Ende zu vergleichen
       if (pressed_button > 0) {
         if (pressed_button == sequence[input_length]) {
+          input[i]= pressed_button;
           input_length++;
           digitalWrite(green_Led[pressed_button], HIGH);
           delay(500);

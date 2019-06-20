@@ -14,7 +14,7 @@ void receiveEvent(int howMany) {
         break;
 
       case 'r':                 //reset the game
-        gamestatus = 0;
+        reset();
         Serial.println("Das Spiel wurde zurückgesetzt");
         break;
 

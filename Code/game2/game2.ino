@@ -13,6 +13,7 @@ int pressedButton = 0;
 int lastPressedButton = 0;
 const int answers[] = {0, 3, 1, 2, 3};
 unsigned int pressed_time[] = {0, 0, 0, 0, 0};
+bool game_has_started = false;
 
 void setup() {
   Serial.begin(9600);
@@ -31,7 +32,10 @@ void loop() {
   if (gamestatus > 0 && gamestatus < 5) {             //wait for game to be started by master controler
     pressedButton = checkButtons(); //check for pressed buttons
     BlinkLED(gamestatus);           //make the LED of the current stage blink
-
+    if (game_has_started == false) {
+      game_has_started = true;
+      turnOffAllLEDs();
+    }
     if (pressedButton != lastPressedButton) { //exclude that button is being pressed and held
       lastPressedButton = pressedButton;
 

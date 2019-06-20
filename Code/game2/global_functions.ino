@@ -15,3 +15,8 @@ void fail() {
   BlinkAllLEDs(3);      // play an animation
   gamestatus = 1;      // return to first question
 }
+
+void reset() {
+  game_has_started = false;
+  gamestatus = 0;
+}
