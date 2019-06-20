@@ -10,7 +10,7 @@ void animation_startup() {
 
 void animationGameOver() {
   int n = 2000;
-  buzzer.begin(20);
+  buzzer.begin(5);
   buzzer.sound(piepton, n);
 }
 

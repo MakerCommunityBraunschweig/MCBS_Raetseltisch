@@ -22,6 +22,7 @@ void game_over() {
 
 void wait_for_reset() {
   if (digitalRead(startbutton) == LOW) {
+    Serial.print("RESET!");
     reset();
     delay(1000);
   }
