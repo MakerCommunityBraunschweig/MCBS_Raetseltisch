@@ -1,4 +1,4 @@
-boolean array_cmp(byte *a, byte *b) {
+boolean array_cmp(byte *a, byte *b) { // funktion für den Vergleich zweier arrays. Wird benötigt, um UID'S zu vereichen
   // test each element to be the same. if not, return false
   for (int i = 0; i < 4; i++) {
     if (a[i] != b[i]) {
@@ -9,7 +9,7 @@ boolean array_cmp(byte *a, byte *b) {
   return true;
 }
 
-int getCardnumber() {
+int getCardnumber() { Kontrolliere, ob vorgehaltene Karte bekannt ist, wenn ja, gib ihre Nummer aus
   if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial() ) {
     Serial.print("Gelesene UID:");
     for (byte i = 0; i < rfid.uid.size; i++) {
@@ -48,7 +48,7 @@ int getCardnumber() {
   }
 }
 
-void updateProgressLed() {
+void updateProgressLed() { //je nach gamestatus müssen mehr oder weniger LEDs leuchten
   switch (gamestatus) {
     case 0:
     case 1:
@@ -85,15 +85,15 @@ void reset() {
 
 //Auszuführen, falls Spiel gelöst wurde
 void win() {
-  output = 's';
+  output = 's'; // sende 's' an master, um mitzuteilen, dass das Modul gelöst wurde
   Serial.println("Bravo! Station gelöst!\n");
   gamestatus++;
 }
 
 //Auszuführen, falls ein Fehler gemacht wurde
 void fail() {
-  output = 'f';
-  gamestatus = 1;
+  output = 'f'; // sende 'f' an master, um Fehler mitzuteilen
+  gamestatus = 1; // warte weider auf die erste Karte
   Serial.println("Falsch! Nochmal von vorne!\n");
   for ( int i = 0; i < 3; i++) {
     digitalWrite(rLED, HIGH);

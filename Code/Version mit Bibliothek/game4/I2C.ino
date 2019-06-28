@@ -6,12 +6,12 @@ void requestEvent() {
 void receiveEvent(int howMany) {
   while (1 <= Wire.available()) {// loop through all but the last
     char input = Wire.read();   // receive byte as a character
-    Serial.print("Empfangende Daten: ");
+    Serial.print("Empfange Daten: ");
     Serial.println(input);        // print the character
     switch  (input) {
       case 'a':
+        output = 'a';
         gamestatus = 1;         //start the game
-        output= 'a';
         Serial.println("Das Spiel wurde aktiviert");
         break;
 

@@ -1,0 +1,41 @@
+/*
+  raetseltisch.cpp - Rätseltisch- Bibliothek der Maker Community Braunschweig.
+  Created by Tim Kessel, June 23, 2019.
+*/
+
+###########################################
+# Syntax Coloring Map For raetseltisch.cpp
+###########################################
+ 
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+ 
+module  KEYWORD1
+master 	KEYWORD1
+ 
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+ 
+begin    				KEYWORD2
+requestEvent   			KEYWORD2
+receiveEvent			KEYWORD2
+solved					KEYWORD2
+fail					KEYWORD2
+activated				KEYWORD2
+reset					KEYWORD2
+set_gamestatus			KEYWORD2
+increase_gamestatus		KEYWORD2
+
+set_gametime			KEYWORD2
+set_penalty				KEYWORD2
+increase_stage			KEYWORD2
+set_stage				KEYWORD2
+win						KEYWORD2
+game_over				KEYWORD2
+
+###########################################
+# Constants (LITERAL1)
+###########################################
+  
