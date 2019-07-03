@@ -56,7 +56,7 @@ void loop() {
       //speichere gedrückten Knopf im array, um am Ende zu vergleichen
       if (pressed_button > 0) {
         if (pressed_button == sequence[input_length]) {
-          input[i]= pressed_button;
+          input[input_length]= pressed_button;
           input_length++;
           digitalWrite(green_Led[pressed_button], HIGH);
           delay(500);

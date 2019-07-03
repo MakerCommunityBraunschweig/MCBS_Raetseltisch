@@ -3,7 +3,7 @@
 #include <TM1637.h>
 
 //Gamesettings
-const byte   penalty = 30;
+const byte   penalty = 20;
 const short  gametime = 300;
 
 /*

@@ -9,7 +9,7 @@ boolean array_cmp(byte *a, byte *b) { // funktion für den Vergleich zweier arra
   return true;
 }
 
-int getCardnumber() { Kontrolliere, ob vorgehaltene Karte bekannt ist, wenn ja, gib ihre Nummer aus
+int getCardnumber() { //Kontrolliere, ob vorgehaltene Karte bekannt ist, wenn ja, gib ihre Nummer aus
   if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial() ) {
     Serial.print("Gelesene UID:");
     for (byte i = 0; i < rfid.uid.size; i++) {
